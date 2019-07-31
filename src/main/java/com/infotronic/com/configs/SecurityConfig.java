@@ -41,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 	    http.addFilter(new JWTAuthentificationFilter(authenticationManager()));
 	    //http.addFilterBefore(new CORSFilter(), CORSFilter.class); // SECOND FILTER
+	    http.cors();
 		http.addFilterBefore(new JWTAuthorizationFilter(),
 		  UsernamePasswordAuthenticationFilter.class);
 		 

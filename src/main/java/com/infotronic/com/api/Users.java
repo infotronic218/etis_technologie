@@ -42,7 +42,15 @@ public class Users {
 		map.put("user", appUser);
 		return map ;
 	}
+	@PostMapping("/api/users/account/register")
+	public String register() {
+		return "";
+	}
 	
+	@PostMapping("/api/users/account/reset")
+	public String reset() {
+		return "";
+	}
 }
 
 

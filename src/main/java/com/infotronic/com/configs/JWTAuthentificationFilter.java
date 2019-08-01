@@ -30,12 +30,13 @@ public class JWTAuthentificationFilter extends UsernamePasswordAuthenticationFil
 	
 	public JWTAuthentificationFilter(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
+		setFilterProcessesUrl(SecurityParams.LOGIN_URL);
 	}
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-	 //	System.out.println("User attempt to connexion !");
+	 //System.out.println("User attempt to connexion !");
 		try {
 			
 			AppUser user  = new ObjectMapper().readValue(request.getInputStream(), AppUser.class);
@@ -60,14 +61,26 @@ public class JWTAuthentificationFilter extends UsernamePasswordAuthenticationFil
     });
 		
     Date expiration = new Date(System.currentTimeMillis()+SecurityParams.EXPIRATION);
-     String jwt = JWT.create()
+    System.out.println("Expiration"+ expiration); 
+    String jwt = JWT.create()
     		      .withIssuer(request.getRequestURI())
     		      .withSubject(springUser.getUsername())
     		      .withArrayClaim("roles", roles.toArray(new String[roles.size()]))
     		      .withExpiresAt(expiration)
     		      .sign(Algorithm.HMAC256(SecurityParams.JWT_SECRET));
-     response.addHeader(SecurityParams.JWT_HEADER_NAME,jwt);
+     
+    response.addHeader(SecurityParams.JWT_HEADER_NAME,jwt);
      response.addDateHeader("expiration", expiration.getTime());
+     
+     //System.out.println("Token "+ jwt); 
+    // System.out.println(response.getHeader(SecurityParams.JWT_HEADER_NAME));
+	}
+
+	@Override
+	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+			AuthenticationException failed) throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		super.unsuccessfulAuthentication(request, response, failed);
 	}
 	
     

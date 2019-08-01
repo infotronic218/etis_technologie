@@ -30,6 +30,7 @@ public class Post implements Serializable {
 	private Category category;
 	@OneToOne
 	private AppUser author ;
+	
 	public Long getId() {
 		return id;
 	}

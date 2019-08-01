@@ -43,7 +43,17 @@ public class Posts {
 	/*For all user*/
 	@GetMapping("/api/posts")
 	public Page<Post> usersList(@RequestParam(required=false, defaultValue="0")int page ,@RequestParam(required=false, defaultValue="2" )int size){
-		return postDao.findByActive(true,PageRequest.of(page, size, new Sort(Sort.Direction.DESC,"created")));
+		Page<Post> list =  postDao.findByActive(true,PageRequest.of(page, size, new Sort(Sort.Direction.DESC,"created")));
+		
+		list.forEach(post ->{
+			  post.getAuthor().setUsername("null");
+			  post.getAuthor().setEmail("");
+			  post.getAuthor().setRoles(null);
+			
+			 
+		  });
+		
+		return  list;
 	}
 	
 	@GetMapping("/api/posts/{categoryId}/category")

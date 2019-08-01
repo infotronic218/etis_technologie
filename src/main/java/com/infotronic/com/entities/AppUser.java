@@ -27,6 +27,7 @@ public class AppUser implements Serializable{
   @JsonProperty(access=Access.WRITE_ONLY)
   private String password ;
   @Transient
+  @JsonIgnore
   private String confirm;
   private String email;
   private String firstname ;

@@ -10,10 +10,10 @@ public class Home {
 	public String home() {
 		return "index";
 	}
-
-	@RequestMapping("/api/login")
-	public String login() {
-		return "redirect:/login";
-	}
+    
+//	@RequestMapping("/api/login")
+//	public String login() {
+//		return "redirect:/login";
+//	}
 	
 }

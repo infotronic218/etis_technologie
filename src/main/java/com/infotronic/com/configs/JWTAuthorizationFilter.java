@@ -10,42 +10,51 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.OncePerRequestFilter;
-
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 
-public class JWTAuthorizationFilter extends OncePerRequestFilter {
+public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+
+	public JWTAuthorizationFilter(AuthenticationManager authenticationManager) {
+		super(authenticationManager);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		//System.out.println("Page requested by me :");
-		//System.out.println(request.toString());
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Methods", "*");
-        response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
-
-		response.setHeader("Access-Control-Allow-Headers", "*");
-        response.setHeader("Access-Control-Allow-Headers",
-                "Origin, X-Requested-With, Content-Type, Accept, X-Auth-Token, X-Csrf-Token, Authorization");
-
-		response.setHeader("Access-Control-Allow-Credentials", "false");
-		response.setHeader("Access-Control-Max-Age", "3600");	
+		
+		/*
+		 * response.setHeader("Access-Control-Allow-Origin", "*");
+		 * response.setHeader("Access-Control-Allow-Methods", "*");
+		 * //response.setHeader(
+		 * "Access-Control-Allow-Methods","POST, GET, PUT, OPTIONS, DELETE");
+		 * 
+		 * response.setHeader("Access-Control-Allow-Headers", "*");
+		 * //response.setHeader("Access-Control-Allow-Headers",
+		 * //"Origin, X-Requested-With, Content-Type, Accept, X-Auth-Token, X-Csrf-Token, Authorization"
+		 * //);
+		 * 
+		 * response.setHeader("Access-Control-Allow-Credentials", "false");
+		 * response.setHeader("Access-Control-Max-Age", "3600");
+		 */
 		
 		if(request.getMethod().equals("OPTIONS")) {
 			response.setStatus(HttpServletResponse.SC_OK);
 			//System.out.println("OPTIONS METHOD");
 			
-		}else if(request.getRequestURI().equals("/login/")) {
+		}else if(request.getRequestURI().equals("/login")|| request.getRequestURI().equals("/api/login")) {
 			filterChain.doFilter(request, response);
-			//System.out.println("Login next filter");
+			System.out.println("Login next filter");
 			return ;
 		}else {
 		String jwtToken= request.getHeader(SecurityParams.JWT_HEADER_NAME);

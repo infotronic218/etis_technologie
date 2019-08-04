@@ -1,5 +1,7 @@
 package com.infotronic.com.api;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.infotronic.com.dao.CategoryDao;
+import com.infotronic.com.dao.RoleDao;
 import com.infotronic.com.dao.UserDao;
 import com.infotronic.com.entities.AppUser;
 
@@ -18,6 +22,8 @@ import com.infotronic.com.entities.AppUser;
 public class Users {
 	@Autowired
 	UserDao userDao ;
+	@Autowired
+	private RoleDao roleDao ;
 	
 	@GetMapping("/api/users/account")
 	public Map<String, Object> user(){
@@ -42,9 +48,23 @@ public class Users {
 		map.put("user", appUser);
 		return map ;
 	}
-	@PostMapping("/api/users/account/register")
-	public String register() {
-		return "";
+	@PostMapping("/register")
+	public Map<String, Object> register(@RequestBody UserCreateForm createForm) {
+		Map<String, Object> map =new  HashMap<String, Object>();
+		
+		map.put("user", createForm);
+		return map;
+	}
+	
+	public AppUser userFormToAppUser(UserCreateForm createForm) {
+		AppUser appUser = new AppUser();
+		appUser.setFirstname(createForm.firstname);
+		appUser.setLastname(createForm.lastname);
+		appUser.setUsername(createForm.username);
+		appUser.setPassword(createForm.password);
+		appUser.setEmail(createForm.email);
+		appUser.addRole(roleDao.findById("DELEGUE").get());;
+		return appUser;
 	}
 	
 	@PostMapping("/api/users/account/reset")
@@ -54,6 +74,18 @@ public class Users {
 }
 
 
+class UserCreateForm{
+	public	String username;
+	public	String email;
+	public	String firstname;
+	public	String lastname;
+	public  String password ;
+	public String  confirm;
+	
+	public String toString() {
+		return "{ "+email+ " "+ firstname + " "+lastname +" }";
+	}
+}
   class UserForm{
 	public	String username;
 	public	String email;
@@ -63,8 +95,7 @@ public class Users {
 	public String toString() {
 		return "{ "+email+ " "+ firstname + " "+lastname +" }";
 		
-
-		
+   
 	}
    
 	

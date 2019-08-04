@@ -49,20 +49,27 @@ public class Posts {
 			  post.getAuthor().setUsername("null");
 			  post.getAuthor().setEmail("");
 			  post.getAuthor().setRoles(null);
-			
-			 
 		  });
 		
 		return  list;
 	}
 	
-	@GetMapping("/api/posts/{categoryId}/category")
+	@GetMapping("/api/posts/{slug}")
+	public Post upostSlug(@PathVariable(name="slug")String slug){
+		return postDao.findBySlugAndActive(slug, true);
+	}
+	/*Find an article based on category*/
+	@GetMapping("/api/posts/category/{categoryId}")
 	public Page<Post> postByCategory(
 			@PathVariable(name="categoryId",required=true)String categoryId,
 			@RequestParam(required=false, defaultValue="0")int page ,
 			@RequestParam(required=false, defaultValue="2" )int size){
-		Category cat  = daoCat.findById(categoryId).get();
-		return postDao.findByActive(true,PageRequest.of(page, size));
+		    if (daoCat.existsById(categoryId)) {
+		    	Category cat  = daoCat.findById(categoryId).get();
+		    	return postDao.findByActiveAndCategory(true, cat, PageRequest.of(page, size));
+		    }
+		    
+		    return postDao.findByActive(true,PageRequest.of(page, size));
 	}
 	
 	/*Get total post in a category*/
@@ -77,10 +84,7 @@ public class Posts {
 	
 	
 	/*For all user*/
-	@GetMapping("/api/posts/{slug}")
-	public Post upostSlug(@PathVariable(name="slug")String slug){
-		return postDao.findBySlugAndActive(slug, true);
-	}
+	
 	
 	@GetMapping("/api/admin/posts")
 	public List<Post> getList(){

@@ -33,20 +33,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 			throws ServletException, IOException {
 		//System.out.println("Page requested by me :");
 		
-		/*
-		 * response.setHeader("Access-Control-Allow-Origin", "*");
-		 * response.setHeader("Access-Control-Allow-Methods", "*");
-		 * //response.setHeader(
-		 * "Access-Control-Allow-Methods","POST, GET, PUT, OPTIONS, DELETE");
-		 * 
-		 * response.setHeader("Access-Control-Allow-Headers", "*");
-		 * //response.setHeader("Access-Control-Allow-Headers",
-		 * //"Origin, X-Requested-With, Content-Type, Accept, X-Auth-Token, X-Csrf-Token, Authorization"
-		 * //);
-		 * 
-		 * response.setHeader("Access-Control-Allow-Credentials", "false");
-		 * response.setHeader("Access-Control-Max-Age", "3600");
-		 */
+		
 		
 		if(request.getMethod().equals("OPTIONS")) {
 			response.setStatus(HttpServletResponse.SC_OK);

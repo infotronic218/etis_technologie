@@ -15,7 +15,7 @@ public interface PostDao  extends JpaRepository<Post, Long>{
  Page<Post>findByActiveAndCategory(boolean active, Category cat , Pageable pageable);
  Post findByIdAndActive(Long id,boolean active);
  Post findBySlugAndActive(String slug,boolean active);
- Long countByCategory(Category cat) ;
+ Long countByCategoryAndActive(Category cat, boolean active ) ;
  List<Post> findByCategory(Category cat);
 
 }

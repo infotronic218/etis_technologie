@@ -77,7 +77,7 @@ public class Posts {
 	 List<Category> getCategoriesWithPosts(){
 	    List<Category> list=   daoCat.findAll();
 	     list.forEach(cat->{
-	        	cat.setCount(postDao.countByCategory(cat));
+	        	cat.setCount(postDao.countByCategoryAndActive(cat, true));
 	      });
 	    return list;
 	    }

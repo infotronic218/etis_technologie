@@ -1,0 +1,22 @@
+{
+    "name": "Etis Technologie",
+    "short_name": "ETIS Tech",
+    "icons": [{
+            "src": "./img/incon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "./img/incon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#FFF",
+    "theme_color": "#503563",
+    "scope": "/",
+    "gcm_sender_id": "103953800507"
+}

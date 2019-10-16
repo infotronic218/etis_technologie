@@ -63,9 +63,9 @@ public class EtisTectnologiesApplication {
 	        	try {
 					 
 					 if(hour>=6 && hour<=23) {
-						 Thread.sleep(30*60*1000);
+						 Thread.sleep(25*60*1000);
 				        }else {
-				        	Thread.sleep(120*60*1000);
+				        	Thread.sleep(25*60*1000);
 				        }
 					  ctx.close();
 			          ctx = SpringApplication.run(EtisTectnologiesApplication.class, args.getSourceArgs());
